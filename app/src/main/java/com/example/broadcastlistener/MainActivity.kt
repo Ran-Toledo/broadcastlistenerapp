@@ -1,6 +1,5 @@
 package com.example.broadcastlistener
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -29,7 +28,6 @@ class MainActivity : ComponentActivity() {
     private val airplaneModeReceiver = AirplaneModeReceiver()
     private val customBroadcastReceiver = CustomBroadcastReceiver()
 
-    @SuppressLint("UnspecifiedRegisterReceiverFlag", "UnsafeImplicitIntentLaunch")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +37,7 @@ class MainActivity : ComponentActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerReceiver(customBroadcastReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
         } else {
+            @Suppress("UnspecifiedRegisterReceiverFlag")
             registerReceiver(customBroadcastReceiver, filter)
         }
 
@@ -59,6 +58,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Button(onClick = {
                         val intent = Intent("com.example.CUSTOM_EVENT")
+                        intent.setPackage(packageName)
                         intent.putExtra("custom_message", "Hello from MainActivity")
                         sendBroadcast(intent)
                     }) {
