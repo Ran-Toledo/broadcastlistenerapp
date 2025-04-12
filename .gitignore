@@ -1,0 +1,40 @@
+# Gradle files
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+/local.properties
+
+# Android Studio files
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# Auto-generated files
+*.apk
+*.ap_
+*.dex
+*.class
+*.log
+
+# Keystore files
+*.jks
+*.keystore
+
+# OS-specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.swp
+
+# Test results
+/test-output/
+androidTest/
+
+# Others
+*.tmp
+*.orig
+.cache/
+/captures
+.externalNativeBuild
