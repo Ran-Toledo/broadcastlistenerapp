@@ -5,11 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 
-class CustomBroadcastReceiver : BroadcastReceiver()
-{
-    override fun onReceive(context: Context?, intent: Intent?)
-    {
-        val message = intent?.getStringExtra("custom_message")
-        Log.d("CustomBroadcastReceiver", "Received custom broadcast: $message")
-    }
-}
+//class CustomBroadcastReceiver : BroadcastReceiver()
+//{
+//    override fun onReceive(context: Context?, intent: Intent?)
+//    {
+//        val message = intent?.getStringExtra("custom_message")
+//        Log.d("CustomBroadcastReceiver", "Received custom broadcast: $message")
+//    }
+//}
+
+class CustomBroadcastReceiver(listener: EventListener) : BaseReceiver(listener)
