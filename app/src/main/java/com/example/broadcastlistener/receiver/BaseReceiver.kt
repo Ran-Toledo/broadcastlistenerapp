@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.example.broadcastlistener.model.SystemEvent
 
-abstract class BaseReceiver(private val listener: EventListener) : BroadcastReceiver() {
+class BaseReceiver(private val listener: EventListener) : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         intent?.action?.let { action ->
             val extras = intent.extras?.keySet()

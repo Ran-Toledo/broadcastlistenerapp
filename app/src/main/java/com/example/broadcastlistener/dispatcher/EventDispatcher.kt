@@ -7,7 +7,7 @@ import com.example.broadcastlistener.receiver.EventListener
 import com.example.broadcastlistener.repository.EventSender
 import com.example.broadcastlistener.utils.Deduplicator
 
-class EventDispatcher : EventListener {
+object EventDispatcher : EventListener {
     override fun onEventReceived(event: SystemEvent) {
         if (Deduplicator.shouldProcessEvent(event)) {
             Log.d("EventDispatcher", "Dispatching event: $event")
