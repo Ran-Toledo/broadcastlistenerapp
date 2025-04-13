@@ -1,4 +1,4 @@
-package com.example.broadcastlistener.utils
+package com.example.broadcastlistener.backend
 
 object Config {
     // Replace this with your temporary webhook.site URL

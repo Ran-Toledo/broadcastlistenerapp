@@ -1,9 +1,7 @@
 package com.example.broadcastlistener
 
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.health.connect.datatypes.units.Power
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,13 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
 import com.example.broadcastlistener.ui.theme.BroadcastListenerAppTheme
-import com.example.broadcastlistener.dispatcher.EventDispatcher
-import com.example.broadcastlistener.model.SystemEvent
+import com.example.broadcastlistener.events.EventDispatcher
+import com.example.broadcastlistener.events.SystemEvent
 import com.example.broadcastlistener.receiver.BaseReceiver
-import com.example.broadcastlistener.utils.BroadcastSender
-import com.example.broadcastlistener.utils.FirstUseTracker
+import com.example.broadcastlistener.events.CustomEventSender
 
 class MainActivity : ComponentActivity() {
 
@@ -73,7 +69,7 @@ class MainActivity : ComponentActivity() {
                         Text(text = "Hello, Android!")
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(onClick = {
-                            BroadcastSender.sendCustomEvent(this@MainActivity, "Hello from UI button!")
+                            CustomEventSender.sendCustomEvent(this@MainActivity, "Hello from UI button!")
                         }) {
                             Text(text = "Send Custom Broadcast")
                         }

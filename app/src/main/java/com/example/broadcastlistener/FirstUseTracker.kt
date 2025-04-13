@@ -1,4 +1,4 @@
-package com.example.broadcastlistener.utils
+package com.example.broadcastlistener
 
 import android.content.Context
 import android.content.SharedPreferences

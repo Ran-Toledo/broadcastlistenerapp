@@ -1,4 +1,4 @@
-package com.example.broadcastlistener.model
+package com.example.broadcastlistener.events
 
 data class SystemEvent(
     val action: String,

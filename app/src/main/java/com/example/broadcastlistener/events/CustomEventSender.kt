@@ -1,9 +1,9 @@
-package com.example.broadcastlistener.utils
+package com.example.broadcastlistener.events
 
 import android.content.Context
 import android.content.Intent
 
-object BroadcastSender
+object CustomEventSender
 {
     fun sendCustomEvent(context: Context, message: String)
     {

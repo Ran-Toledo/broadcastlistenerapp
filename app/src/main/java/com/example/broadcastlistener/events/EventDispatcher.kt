@@ -1,11 +1,10 @@
 // dispatcher/EventDispatcher.kt
-package com.example.broadcastlistener.dispatcher
+package com.example.broadcastlistener.events
 
 import android.util.Log
-import com.example.broadcastlistener.model.SystemEvent
 import com.example.broadcastlistener.receiver.EventListener
-import com.example.broadcastlistener.repository.EventSender
-import com.example.broadcastlistener.utils.Deduplicator
+import com.example.broadcastlistener.backend.EventSender
+import com.example.broadcastlistener.deduplication.Deduplicator
 
 object EventDispatcher : EventListener {
     override fun onEventReceived(event: SystemEvent) {

@@ -1,8 +1,7 @@
-package com.example.broadcastlistener.repository
+package com.example.broadcastlistener.backend
 
 import android.util.Log
-import com.example.broadcastlistener.model.SystemEvent
-import com.example.broadcastlistener.utils.Config
+import com.example.broadcastlistener.events.SystemEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
