@@ -29,9 +29,11 @@ import com.example.broadcastlistener.receiver.BluetoothStateReceiver
 import com.example.broadcastlistener.ui.theme.BroadcastListenerAppTheme
 import com.example.broadcastlistener.receiver.CustomBroadcastReceiver
 import com.example.broadcastlistener.dispatcher.EventDispatcher
+import com.example.broadcastlistener.model.SystemEvent
 import com.example.broadcastlistener.receiver.HeadsetReceiver
 import com.example.broadcastlistener.receiver.PowerReceiver
 import com.example.broadcastlistener.utils.BroadcastSender
+import com.example.broadcastlistener.utils.FirstUseTracker
 
 class MainActivity : ComponentActivity() {
 
@@ -46,6 +48,17 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (FirstUseTracker.isFirstUse(this)) {
+            val event = SystemEvent(
+                action = "app.first_use",
+                timestamp = System.currentTimeMillis(),
+                extras = mapOf("source" to "app_launch")
+            )
+
+            dispatcher.onEventReceived(event)
+            FirstUseTracker.markFirstUseSent(this)
+        }
 
         registerReceiver(airplaneModeReceiver, IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED))
         registerReceiver(headsetReceiver, IntentFilter(Intent.ACTION_HEADSET_PLUG))
