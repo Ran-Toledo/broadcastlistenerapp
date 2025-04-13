@@ -3,6 +3,7 @@ package com.example.broadcastlistener
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.health.connect.datatypes.units.Power
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -24,10 +25,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.example.broadcastlistener.receiver.AirplaneModeReceiver
+import com.example.broadcastlistener.receiver.BluetoothStateReceiver
 import com.example.broadcastlistener.ui.theme.BroadcastListenerAppTheme
 import com.example.broadcastlistener.receiver.CustomBroadcastReceiver
 import com.example.broadcastlistener.receiver.EventDispatcher
 import com.example.broadcastlistener.receiver.HeadsetReceiver
+import com.example.broadcastlistener.receiver.PowerReceiver
 import com.example.broadcastlistener.utils.BroadcastSender
 
 class MainActivity : ComponentActivity() {
@@ -37,14 +40,28 @@ class MainActivity : ComponentActivity() {
     private val airplaneModeReceiver = AirplaneModeReceiver(dispatcher)
     private val customBroadcastReceiver = CustomBroadcastReceiver(dispatcher)
     private val headsetReceiver = HeadsetReceiver(dispatcher)
+    private val powerConnectedReceiver = PowerReceiver(dispatcher)
+    private val powerDisconnectedReceiver = PowerReceiver(dispatcher)
+    private val bluetoothStateChangedReceiver = BluetoothStateReceiver(dispatcher)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         registerReceiver(airplaneModeReceiver, IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED))
         registerReceiver(headsetReceiver, IntentFilter(Intent.ACTION_HEADSET_PLUG))
+        registerReceiver(powerConnectedReceiver, IntentFilter(Intent.ACTION_POWER_CONNECTED))
+        registerReceiver(powerDisconnectedReceiver, IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
-        val filter = IntentFilter("com.example.CUSTOM_EVENT")
+        var filter = IntentFilter("android.bluetooth.adapter.action.STATE_CHANGED")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(bluetoothStateChangedReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            @Suppress("UnspecifiedRegisterReceiverFlag")
+            registerReceiver(bluetoothStateChangedReceiver, filter)
+        }
+
+        filter = IntentFilter("com.example.CUSTOM_EVENT")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerReceiver(customBroadcastReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
         } else {
@@ -84,6 +101,9 @@ class MainActivity : ComponentActivity() {
         unregisterReceiver(airplaneModeReceiver)
         unregisterReceiver(customBroadcastReceiver)
         unregisterReceiver(headsetReceiver)
+        unregisterReceiver(powerConnectedReceiver)
+        unregisterReceiver(powerDisconnectedReceiver)
+        unregisterReceiver(bluetoothStateChangedReceiver)
     }
 }
 
