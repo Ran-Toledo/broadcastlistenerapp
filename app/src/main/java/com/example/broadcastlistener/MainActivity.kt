@@ -28,7 +28,7 @@ import com.example.broadcastlistener.receiver.AirplaneModeReceiver
 import com.example.broadcastlistener.receiver.BluetoothStateReceiver
 import com.example.broadcastlistener.ui.theme.BroadcastListenerAppTheme
 import com.example.broadcastlistener.receiver.CustomBroadcastReceiver
-import com.example.broadcastlistener.receiver.EventDispatcher
+import com.example.broadcastlistener.dispatcher.EventDispatcher
 import com.example.broadcastlistener.receiver.HeadsetReceiver
 import com.example.broadcastlistener.receiver.PowerReceiver
 import com.example.broadcastlistener.utils.BroadcastSender

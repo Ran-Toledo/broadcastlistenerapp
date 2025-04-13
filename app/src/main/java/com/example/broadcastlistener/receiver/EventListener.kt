@@ -1,6 +1,7 @@
 package com.example.broadcastlistener.receiver
 
-interface EventListener
-{
-    fun onEventReceived(action: String, extras: Map<String, Any?>)
+import com.example.broadcastlistener.model.SystemEvent
+
+interface EventListener {
+    fun onEventReceived(event: SystemEvent)
 }

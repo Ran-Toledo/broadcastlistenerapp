@@ -1,4 +1,7 @@
 package com.example.broadcastlistener.model
 
-class SystemEvent {
-}
+data class SystemEvent(
+    val action: String,
+    val timestamp: Long,
+    val extras: Map<String, Any?>
+)
