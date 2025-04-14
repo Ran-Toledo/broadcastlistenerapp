@@ -67,7 +67,7 @@ class DeduplicationInstrumentedTest {
         val event = SystemEvent(
             action = "com.example.CUSTOM_EVENT",
             timestamp = System.currentTimeMillis(),
-            extras = mapOf("data" to "test")
+            extras = mapOf("custom_message" to "Hello from UI button!")
         )
 
         EventDispatcher.onEventReceived(event)

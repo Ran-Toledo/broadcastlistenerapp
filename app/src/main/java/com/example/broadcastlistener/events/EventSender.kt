@@ -1,7 +1,7 @@
-package com.example.broadcastlistener.backend
+package com.example.broadcastlistener.events
 
 import android.util.Log
-import com.example.broadcastlistener.events.SystemEvent
+import com.example.broadcastlistener.Config
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ object EventSender {
     fun sendEvent(event: SystemEvent) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val url = URL(Config.webhookUrl)
+                val url = URL(Config.backendUrl)
                 val connection = url.openConnection() as HttpURLConnection
                 connection.requestMethod = "POST"
                 connection.setRequestProperty("Content-Type", "application/json")
@@ -27,13 +27,15 @@ object EventSender {
                 for ((key, value) in event.extras) {
                     extrasJson.put(key, value.toString())
                 }
-
                 json.put("extras", extrasJson)
 
-                val body = json.toString()
-                connection.outputStream.write(body.toByteArray())
-                connection.outputStream.flush()
-                connection.outputStream.close()
+                val body = json.toString(2)
+                Log.d("EventSender", "Sending JSON:\n$body")
+
+                connection.outputStream.use { os ->
+                    os.write(body.toByteArray(Charsets.UTF_8))
+                    os.flush()
+                }
 
                 val responseCode = connection.responseCode
                 Log.d("EventSender", "Event sent. Response code: $responseCode")

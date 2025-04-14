@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Hello, Android!")
+                        Text(text = "Welcome to Broadcast Listener App")
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(onClick = {
                             CustomEventSender.sendCustomEvent(this@MainActivity, "Hello from UI button!")
@@ -113,18 +113,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BroadcastListenerAppTheme {
-        Greeting("Android")
-    }
-}

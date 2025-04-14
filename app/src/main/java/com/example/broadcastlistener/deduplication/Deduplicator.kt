@@ -1,6 +1,7 @@
 package com.example.broadcastlistener.deduplication
 
 import com.example.broadcastlistener.events.SystemEvent
+import com.example.broadcastlistener.Config
 import java.security.MessageDigest
 import java.util.LinkedList
 
@@ -17,8 +18,10 @@ object Deduplicator {
             return false
         }
 
+        val maxCacheSize = Config.cacheSize.coerceAtMost(MAX_CACHE_SIZE)
+
         recentHashes.add(hash)
-        if (recentHashes.size > MAX_CACHE_SIZE) {
+        if (recentHashes.size > maxCacheSize) {
             recentHashes.removeFirst()
         }
 
