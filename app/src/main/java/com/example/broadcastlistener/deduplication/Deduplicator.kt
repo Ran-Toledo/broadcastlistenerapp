@@ -6,7 +6,6 @@ import java.security.MessageDigest
 import java.util.LinkedList
 
 object Deduplicator {
-    private const val MAX_CACHE_SIZE = 50
     private val recentHashes = LinkedList<String>()
 
     fun shouldProcessEvent(event: SystemEvent): Boolean {
@@ -18,10 +17,8 @@ object Deduplicator {
             return false
         }
 
-        val maxCacheSize = Config.cacheSize.coerceAtMost(MAX_CACHE_SIZE)
-
         recentHashes.add(hash)
-        if (recentHashes.size > maxCacheSize) {
+        if (recentHashes.size > Config.MAX_CACHE_SIZE) {
             recentHashes.removeFirst()
         }
 
