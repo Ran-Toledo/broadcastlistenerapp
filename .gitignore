@@ -30,7 +30,6 @@ Desktop.ini
 
 # Test results
 /test-output/
-androidTest/
 
 # Others
 *.tmp
