@@ -1,11 +1,11 @@
 # BroadcastListenerApp
 
-BroadcastListenerApp is an Android application built using Kotlin and Jetpack Compose. It listens to system and custom broadcast events, constructs structured payloads, deduplicates them based on content, and dispatches them to a backend server. It includes support for common system broadcasts such as power connection changes, Bluetooth adapter state, headset plug detection, and airplane mode, along with a custom in-app broadcast.
+BroadcastListenerApp is an Android application built using Kotlin and Jetpack Compose. It listens to system and custom broadcast events, constructs structured payloads, deduplicates them based on content, and dispatches them to a backend server. It includes support for broadcasts such as power connection changes, Bluetooth adapter state, and headset plug detection, along with a custom in-app broadcast.
 
 ## Build and Run Instructions
 
 1. **Clone the project** using Git or download the source code.
-2. **Open the project** in Android Studio (preferably Arctic Fox or later).
+2. **Open the project** in Android Studio.
 3. **Set the webhook URL and cache size**:
    - Open `Config.kt` located in `com.example.broadcastlistener.data`
    - Set your desired webhook URL (either a [Webhook testing site](https://webhook.site/) or your local backend)
@@ -15,7 +15,7 @@ BroadcastListenerApp is an Android application built using Kotlin and Jetpack Co
 
    ```kotlin
    object Config {
-       var webhookUrl = "http://10.0.2.2:5000"
+       var backendUrl = "http://10.0.2.2:5000"
 
        const val MAX_CACHE_SIZE = 50
    }
@@ -56,19 +56,9 @@ docker-compose up --build
 
 These are located in `src/androidTest/`.
 
-#### From Android Studio:
+From Android Studio:
 - Open `DeduplicationInstrumentedTest.kt`
 - Run individual test methods or the whole class
-
-#### From command line:
-```cmd
-gradlew.bat connectedAndroidTest
-```
-
-Expected output (in Logcat or backend log):
-```
-Duplicate event skipped: android.bluetooth.adapter.action.STATE_CHANGED
-```
 
 ## Dependencies
 
@@ -76,20 +66,20 @@ Duplicate event skipped: android.bluetooth.adapter.action.STATE_CHANGED
 - Kotlin 1.7+
 - Jetpack Compose
 - Coroutine libraries (standard Kotlinx)
-- Internet permission in `AndroidManifest.xml`
+- Internet permission in `AndroidManifest.xml` (exists)
 - Instrumentation test runner: `androidx.test.ext:junit:1.1.5`
 
 ## Project Structure Summary
 
-- `Config.kt`: Defines the webhook URL and cache limits
+- `Config.kt`: Defines the backend URL and cache limits
 - `FirstUseTracker.kt`: Ensures "first use" is sent once per install
 - `MainActivity.kt`: UI logic and broadcast registration
 
 ### `deduplication/`
 - `Deduplicator.kt`: Caches recent event hashes and prevents duplicates
 - `DeduplicationStrategy.kt`: Interface for defining deduplication logic
-- `DeduplicationStrategies.kt`: Strategies for each event type
-- `StrategyRegistry.kt`: Maps actions to strategies
+- `DeduplicationStrategies.kt`: Varying strategies for each event type
+- `DeduplicationStrategyRegistry.kt`: Maps actions to strategies
 
 ### `events/`
 - `CustomEventSender.kt`: Triggers custom broadcasts from the UI
@@ -110,11 +100,11 @@ Each component (event capturing, dispatching, deduplication, backend transmissio
 ### Custom Deduplication Strategies
 To ensure that events are not unnecessarily dispatched multiple times, each event type is associated with its own deduplication strategy:
 
-Some broadcasts (like ACTION_POWER_CONNECTED) require only action name for deduplication.
+- Some broadcasts (like ACTION_POWER_CONNECTED) require only action name for deduplication.
 
-Others (like HEADSET_PLUG or custom events) contain multiple attributes in their payload.
+- Others (like HEADSET_PLUG or custom events) contain multiple attributes in their payload.
 
-Comparing all attributes every time would be inefficient, so we compute event hashes using strategy-specific keys, making comparisons fast and memory-efficient.
+- Comparing all attributes every time would be inefficient, so we compute event hashes using strategy-specific keys, making comparisons fast and memory-efficient.
 
 This design allows each strategy to define what “uniqueness” means, keeps Deduplicator independent of event structure and simplifies testing by allowing isolated strategy validation
 
@@ -125,5 +115,5 @@ All configurable values (like webhookUrl and deduplication cache size) are centr
 The app sends a “first-use” event on initial install using SharedPreferences, while avoiding any UI clutter.
 
 ### Tests and Instrumentation
-The deduplication logic is verified using instrumented tests, running directly on the Android runtime — eliminating permission issues and ensuring logic-level correctness without needing real broadcasts.
+The deduplication logic is verified using instrumented tests, running directly on the Android runtime — eliminating broadcast permission issues when running on an emulator and ensuring logic-level correctness without needing real broadcasts.
 
