@@ -6,7 +6,4 @@ object Config {
     // var backendUrl = "https://webhook.site/your-temp-url"
     // var backendUrl = "http://10.0.2.2:5000/"
     var backendUrl = "http://10.0.2.2:5000/"
-
-    // Replace this with the cache size
-    const val MAX_CACHE_SIZE = 50
 }
