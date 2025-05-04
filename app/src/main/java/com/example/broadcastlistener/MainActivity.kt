@@ -16,10 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.Button
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.broadcastlistener.ui.theme.BroadcastListenerAppTheme
 import com.example.broadcastlistener.events.EventDispatcher
@@ -30,11 +28,11 @@ import com.example.broadcastlistener.events.CustomEventSender
 class MainActivity : ComponentActivity() {
 
     // Receivers
-    private val customBroadcastReceiver = BaseReceiver(EventDispatcher)
-    private val headsetReceiver = BaseReceiver(EventDispatcher)
-    private val powerConnectedReceiver = BaseReceiver(EventDispatcher)
-    private val powerDisconnectedReceiver = BaseReceiver(EventDispatcher)
-    private val bluetoothStateChangedReceiver = BaseReceiver(EventDispatcher)
+    private val customBroadcastReceiver = BaseReceiver()
+    private val headsetReceiver = BaseReceiver()
+    private val powerConnectedReceiver = BaseReceiver()
+    private val powerDisconnectedReceiver = BaseReceiver()
+    private val bluetoothStateChangedReceiver = BaseReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
