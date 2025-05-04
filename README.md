@@ -77,9 +77,6 @@ From Android Studio:
 
 ### `deduplication/`
 - `Deduplicator.kt`: Caches recent event hashes and prevents duplicates
-- `DeduplicationStrategy.kt`: Interface for defining deduplication logic
-- `DeduplicationStrategies.kt`: Varying strategies for each event type
-- `DeduplicationStrategyRegistry.kt`: Maps actions to strategies
 
 ### `events/`
 - `CustomEventSender.kt`: Triggers custom broadcasts from the UI
@@ -96,20 +93,6 @@ From Android Studio:
 
 ### Separation of Concerns
 Each component (event capturing, dispatching, deduplication, backend transmission) is split into its own package or directory.
-
-### Custom Deduplication Strategies
-To ensure that events are not unnecessarily dispatched multiple times, each event type is associated with its own deduplication strategy:
-
-- Some broadcasts (like ACTION_POWER_CONNECTED) require only action name for deduplication.
-
-- Others (like HEADSET_PLUG or custom events) contain multiple attributes in their payload.
-
-- Comparing all attributes every time would be inefficient, so we compute event hashes using strategy-specific keys, making comparisons fast and memory-efficient.
-
-This design allows each strategy to define what “uniqueness” means, keeps Deduplicator independent of event structure and simplifies testing by allowing isolated strategy validation
-
-### Central Configuration
-All configurable values (like webhookUrl and deduplication cache size) are centralized in Config.kt.
 
 ### First-Use Tracking
 The app sends a “first-use” event on initial install using SharedPreferences, while avoiding any UI clutter.
